@@ -1,6 +1,15 @@
 #include <iostream>
 #include "LinkedBST.h"
 
+Stack::Stack(){
+	stack=NULL;
+	top=NULL;
+}
+
+Stack::~Stack(){
+	
+}
+
 LinkedBST::LinkedBST(){
     root=NULL;
 }
@@ -9,43 +18,95 @@ LinkedBST::~LinkedBST(){
     
 }
 
-void LinkedBST::add(int data){
-	if(root==NULL){
-		root->info=data;
+bool Stack::isEmpty(){
+	if(stack==NULL){
+		return true;	
 	}
-    else{
-        Node* prev= new Node();
-        int l=0;
-        int r=0;
-        prev=root;
-        while(prev!=NULL){
-            if(data<prev->info){
-                prev=prev->left;
-                l=1;
-            }
-            if(data>prev->info){
-                prev=prev->right;
-                r=1;
-            }
-        }
-        if(l){
-            Node* newNode= new Node();
-            newNode->info=data;
-            newNode->left=newNode->right=NULL;
-            prev->left=newNode;
-        }
-        if(r){
-            Node* newNode= new Node();
-            newNode->info=data;
-            newNode->left=newNode->right=NULL;
-            prev->right=newNode;
-        }
-    }
+	else{
+		return false;
+	}
+}
+
+void Stack::push(Node *a){
+	node* newNode= new node();
+	newNode->info=a;
+	if(isEmpty()){
+		newNode->next=newNode;
+		stack=newNode;
+	}
+	else{
+		newNode->next=stack->next;
+		stack->next=newNode;
+	}
+}
+
+Node* Stack::pop(){
+	if(isEmpty()){
+		std::cout<<"Stack Underflow"<<std::endl;
+	}
+	else{
+		top=stack->next;
+		Node* data=top->info;
+		stack->next=top->next;
+		if(top==stack){
+			stack=NULL;
+		}
+		return data;
+	}
+}
+
+
+
+
+
+void LinkedBST::add(int data){
+	if (isEmpty()) {
+	    Node *newNode= new Node();
+		root = newNode;
+		root->info = data;
+	}
+	else {
+		Node* newnode = root;
+		Node* pre = NULL;
+		bool l = false;
+		bool r = false;
+		while (newnode != NULL) {
+			pre = newnode;
+			l = false;
+			if (data < newnode->info) {
+				newnode = newnode->left;
+				l = true;
+			}
+			else if (data > newnode->info) {
+				newnode = newnode->right;
+			}
+		}
+		if (l) {
+			Node* n = new Node();
+			n->info = data;
+			pre->left = n;
+		}
+		else {
+			Node* n = new Node();
+			n->info = data;
+			pre->right = n;
+		}
+	}
+
 }
 
 
 void LinkedBST::preorderTraversal(){
-    
+    Stack st;
+	st.push(root);
+	Node* a;
+	while (!st.isEmpty()) {
+		a=st.pop();
+		std::cout << a->info << " ";
+		if (a->right != NULL)	st.push(a->right);
+		if (a->left != NULL)	st.push(a->left);
+	}
+
 }
 
 bool LinkedBST::search(int data){
@@ -65,6 +126,16 @@ bool LinkedBST::search(int data){
     return false;
 }
 
+bool LinkedBST::isEmpty() {
+	if(root==NULL){
+	    return true;
+	}
+	else{
+	    return false;
+	}
+}
+
+
 int main(){
 	LinkedBST a;
 	a.add(7);
@@ -75,8 +146,9 @@ int main(){
 	a.add(6);
 	a.add(8);
 	
+	a.preorderTraversal();
 	
-    if(a.search(10)){
+    if(a.search(6)){
         std::cout<<"Found"<<std::endl;
     }
     else{
