@@ -17,4 +17,6 @@ class ArrayBST: public BinarySearchTree{
 		int max(int index);
 		
 		int element[MAX_SIZE];
+		int min(int index);
+		int min();
 };

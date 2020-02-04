@@ -76,6 +76,16 @@ bool ArrayBST::search(int data){
 	}
 	return false;
 }
+int ArrayBST::min(){
+	ArrayBST::min(1);
+}
+int ArrayBST::min(int index){
+	
+	while(index<MAX_SIZE){
+		index*=2;	
+	}
+	return element[index];
+}
 
 int ArrayBST::max(int index){
 	while(index<=MAX_SIZE){
@@ -116,5 +126,6 @@ int main(){
     }
     
     std::cout<<"Maximum element is"<<a.max();
+    std::cout<<"the smallest key is "<<a.min();
 }
 

@@ -25,6 +25,12 @@ class LinkedBST : public BinarySearchTree{
 		bool search(int data);
 		bool isEmpty();
 		
+		Node *getRoot(){
+			return root;
+		}
+	int min(Node *root);
+	int max(Node *root);
+		
 };
 
 class Stack{
