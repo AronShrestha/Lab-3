@@ -11,6 +11,7 @@ ArrayBST::~ArrayBST(){
 	
 }
 
+
 void ArrayBST::add(int data){
 	if(this->element[0]==0){
 		element[1]=data;
@@ -46,6 +47,10 @@ int ArrayBST::get_right_child(int index){
     return -1;
 }
 
+void ArrayBST::preorderTraversal(){
+	preorderTraversal(1);
+}
+
 void ArrayBST::preorderTraversal(int index){
 	if(index>0 && element[index]!=0)
     {
@@ -72,6 +77,20 @@ bool ArrayBST::search(int data){
 	return false;
 }
 
+int ArrayBST::max(int index){
+	while(index<=MAX_SIZE){
+		if(element[index]!=0 && (2*index+1)<=MAX_SIZE){
+        index=2*index+1;
+    }
+		if(element[2*index+1]==0){
+			return element[index];
+		}
+	}
+}
+int ArrayBST::max(){
+	max(1);
+} 
+
 int main(){
 	ArrayBST a;
 	a.add(7);
@@ -87,7 +106,7 @@ int main(){
 	}
 	std::cout<<std::endl;
 	
-	a.preorderTraversal(1);
+	a.preorderTraversal();
 	
     if(a.search(10)){
         std::cout<<"Found"<<std::endl;
@@ -95,5 +114,7 @@ int main(){
     else{
         std::cout<<"Not Found"<<std::endl;
     }
+    
+    std::cout<<"Maximum element is"<<a.max();
 }
 
