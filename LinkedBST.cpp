@@ -135,6 +135,15 @@ bool LinkedBST::isEmpty() {
 	}
 }
 
+int LinkedBST::min( Node *root){
+	Node *p= root;
+	while(p->left!=NULL){
+		p=p->left;
+		
+	}
+	return p->info;
+}
+
 
 int main(){
 	LinkedBST a;
@@ -154,5 +163,7 @@ int main(){
     else{
         std::cout<<"Not Found"<<std::endl;
     }
+    std::cout<<"the Smallest Key is "<<a.min(a.getRoot());
+    
 }
 

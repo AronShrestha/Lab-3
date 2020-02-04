@@ -71,6 +71,13 @@ bool ArrayBST::search(int data){
 	}
 	return false;
 }
+int ArrayBST::min(int index){
+	
+	while(index<MAX_SIZE){
+		index*=2;	
+	}
+	return element[index];
+}
 
 int main(){
 	ArrayBST a;
