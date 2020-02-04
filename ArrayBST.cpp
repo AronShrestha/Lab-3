@@ -46,6 +46,10 @@ int ArrayBST::get_right_child(int index){
     return -1;
 }
 
+void ArrayBST::preorderTraversal(){
+	preorderTraversal(1);
+}
+
 void ArrayBST::preorderTraversal(int index){
 	if(index>0 && element[index]!=0)
     {
@@ -71,6 +75,9 @@ bool ArrayBST::search(int data){
 	}
 	return false;
 }
+int ArrayBST::min(){
+	ArrayBST::min(1);
+}
 int ArrayBST::min(int index){
 	
 	while(index<MAX_SIZE){
@@ -94,7 +101,7 @@ int main(){
 	}
 	std::cout<<std::endl;
 	
-	a.preorderTraversal(1);
+	a.preorderTraversal();
 	
     if(a.search(10)){
         std::cout<<"Found"<<std::endl;
@@ -102,5 +109,6 @@ int main(){
     else{
         std::cout<<"Not Found"<<std::endl;
     }
+    std::cout<<"the smallest key is "<<a.min();
 }
 

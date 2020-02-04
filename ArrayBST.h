@@ -7,6 +7,7 @@ class ArrayBST: public BinarySearchTree{
 	public:
 		ArrayBST();
 		~ArrayBST();
+		void preorderTraversal();
 		void preorderTraversal(int index);
 		void add(int data);
 		bool search(int data);
@@ -14,4 +15,5 @@ class ArrayBST: public BinarySearchTree{
 		int get_left_child(int index);
 		int get_right_child(int index);
 		int min(int index);
+		int min();
 };
