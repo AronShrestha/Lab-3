@@ -1,6 +1,6 @@
 #include "BinaryTree.h"
 
-#define MAX_SIZE 16
+#define MAX_SIZE 100
 
 class ArrayBST: public BinarySearchTree{
 	
@@ -9,6 +9,8 @@ class ArrayBST: public BinarySearchTree{
 		~ArrayBST();
 		void preorderTraversal();
 		void preorderTraversal(int index);
+		void inorderTraversal();
+		void inorderTraversal(int index);
 		void add(int data);
 		bool search(int data);
 		int get_left_child(int index);
@@ -19,4 +21,6 @@ class ArrayBST: public BinarySearchTree{
 		int element[MAX_SIZE];
 		int min(int index);
 		int min();
+		void delete_node();
+		void delete_node(int index,int key);
 };

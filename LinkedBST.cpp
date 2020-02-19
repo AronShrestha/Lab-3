@@ -1,63 +1,13 @@
 #include <iostream>
 #include "LinkedBST.h"
 
-Stack::Stack(){
-	stack=NULL;
-	top=NULL;
-}
-
-Stack::~Stack(){
-	
-}
-
 LinkedBST::LinkedBST(){
-    root=NULL;
+	root=NULL;
 }
 
 LinkedBST::~LinkedBST(){
-    
+	
 }
-
-bool Stack::isEmpty(){
-	if(stack==NULL){
-		return true;	
-	}
-	else{
-		return false;
-	}
-}
-
-void Stack::push(Node *a){
-	node* newNode= new node();
-	newNode->info=a;
-	if(isEmpty()){
-		newNode->next=newNode;
-		stack=newNode;
-	}
-	else{
-		newNode->next=stack->next;
-		stack->next=newNode;
-	}
-}
-
-Node* Stack::pop(){
-	if(isEmpty()){
-		std::cout<<"Stack Underflow"<<std::endl;
-	}
-	else{
-		top=stack->next;
-		Node* data=top->info;
-		stack->next=top->next;
-		if(top==stack){
-			stack=NULL;
-		}
-		return data;
-	}
-}
-
-
-
-
 
 void LinkedBST::add(int data){
 	if (isEmpty()) {
@@ -96,17 +46,32 @@ void LinkedBST::add(int data){
 }
 
 
-void LinkedBST::preorderTraversal(){
-    Stack st;
-	st.push(root);
-	Node* a;
-	while (!st.isEmpty()) {
-		a=st.pop();
-		std::cout << a->info << " ";
-		if (a->right != NULL)	st.push(a->right);
-		if (a->left != NULL)	st.push(a->left);
-	}
+void LinkedBST::preorderTraversal(Node *root)
+{ 
+    if (root == NULL) 
+        return; 
+  
+    std::cout << root->info << " "; 
+    preorderTraversal(root->left);  
+    preorderTraversal(root->right); 
+}
 
+void LinkedBST::preorderTraversal(){
+	preorderTraversal(root);
+}
+
+void LinkedBST::inorderTraversal(Node* root) 
+{ 
+    if (root == NULL) 
+        return; 
+	
+	inorderTraversal(root->left);  
+    std::cout << root->info << " "; 
+  	inorderTraversal(root->right); 
+}
+
+void LinkedBST::inorderTraversal(){
+	inorderTraversal(root);
 }
 
 bool LinkedBST::search(int data){
@@ -135,7 +100,7 @@ bool LinkedBST::isEmpty() {
 	}
 }
 
-int LinkedBST::min( Node *root){
+int LinkedBST::min(Node *root){
 	Node *p= root;
 	while(p->left!=NULL){
 		p=p->left;
@@ -144,6 +109,59 @@ int LinkedBST::min( Node *root){
 	return p->info;
 }
 
+int LinkedBST::min(){
+	min(root);
+}
+
+int LinkedBST::max(){
+	max(root);
+}
+
+int LinkedBST::max(Node* root){
+	Node *p=root;
+	while(p->right!=NULL){
+		p=p->right;
+	}
+	return p->info;
+}
+
+void LinkedBST::delete_node(){
+	delete_node(root,6);
+}
+
+Node* LinkedBST::delete_node(Node* root, int key){
+	if(root==NULL){
+		return root;
+	}
+	if(key<root->info){
+		return delete_node(root->left,key);
+	}
+	else if(key>root->info){
+		return delete_node(root->right,key);
+	}
+	else{
+		if(root->left==NULL){
+			Node* temp=root->right;
+			delete(root);
+			return temp;
+		}
+		else if(root->right==NULL){
+			Node *temp=root->left;
+			delete(root);
+			return temp;
+		}
+		else{
+			Node* current = root->right; 
+    		while (current && current->left != NULL) {
+    			current = current->left;
+			}
+			Node* temp=current;
+			root->info=temp->info;
+			root->right=delete_node(root->right,temp->info);
+		}
+	}
+	return root;
+}
 
 int main(){
 	LinkedBST a;
@@ -155,7 +173,16 @@ int main(){
 	a.add(6);
 	a.add(8);
 	
+	std::cout<<"PreOrder Traversal"<<std::endl;
 	a.preorderTraversal();
+	
+	std::cout<<"INOrder Traversal"<<std::endl;
+	a.inorderTraversal();
+	
+	std::cout<<"Delete 5"<<std::endl;
+	Node* p=a.delete_node(a.get_root(),5);
+	std::cout<<"INOrder Traversal"<<std::endl;
+	a.inorderTraversal();
 	
     if(a.search(6)){
         std::cout<<"Found"<<std::endl;
@@ -163,7 +190,8 @@ int main(){
     else{
         std::cout<<"Not Found"<<std::endl;
     }
-    std::cout<<"the Smallest Key is "<<a.min(a.getRoot());
+    std::cout<<"the Smallest Key is "<<a.min()<<std::endl;
+    std::cout<<"the Largest Key is" <<a.max()<<std::endl;
     
 }
 

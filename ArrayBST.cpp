@@ -60,6 +60,18 @@ void ArrayBST::preorderTraversal(int index){
     }
 }
 
+void ArrayBST::inorderTraversal(){
+	inorderTraversal(1);
+}
+
+void ArrayBST::inorderTraversal(int index){
+	if(index>0 && element[index]!=0){
+		inorderTraversal(get_left_child(index));
+		std::cout<<element[index]<<std::endl;
+		inorderTraversal(get_right_child(index));
+	}
+}
+
 bool ArrayBST::search(int data){
 	int current_index=1;
 	while(current_index<=MAX_SIZE){
@@ -76,16 +88,6 @@ bool ArrayBST::search(int data){
 	}
 	return false;
 }
-int ArrayBST::min(){
-	ArrayBST::min(1);
-}
-int ArrayBST::min(int index){
-	
-	while(index<MAX_SIZE){
-		index*=2;	
-	}
-	return element[index];
-}
 
 int ArrayBST::max(int index){
 	while(index<=MAX_SIZE){
@@ -101,6 +103,58 @@ int ArrayBST::max(){
 	max(1);
 } 
 
+int ArrayBST::min(int index){
+	while(index<=MAX_SIZE){
+		if(element[index]!=0 && (2*index)<=MAX_SIZE){
+			index=2*index;
+		}
+		if(element[2*index]==0){
+			return element[index];
+		}
+	}
+}
+
+int ArrayBST::min(){
+	min(1);
+}
+
+void ArrayBST::delete_node(int index,int key){
+	while((element[index]!=key) && (element[index] != 0)){
+        if(key < element[index]){
+        	index = 2 * index;
+		}
+        else{
+        	index = 2 * index + 1;
+		}
+	}
+	if(element[index]!=0){
+		if(element[2*index]==0 && element[2*index+1]==0){
+			std::cout<<"First"<<std::endl;
+			element[index]==0;
+		}
+		else if(element[2*index]==0 || element[2*index+1]==0){
+			std::cout<<"Second"<<std::endl;
+			if(element[2*index+1]==0){
+				element[index]==element[2*index];
+			}
+			else{
+				element[index]==element[2*index+1];
+			}
+		}
+		else{
+			std::cout<<"Third"<<std::endl;
+			int temp=element[index];
+			int m=max(2*index);
+			std::cout<<"MAX"<<m;
+			element[index]=m;
+			delete_node(2*index,m);
+		}
+	}
+}
+
+void ArrayBST::delete_node(){
+	delete_node(1,6);
+}
 int main(){
 	ArrayBST a;
 	a.add(7);
@@ -110,13 +164,17 @@ int main(){
 	a.add(1);
 	a.add(6);
 	a.add(8);
-	
-	for(int i=0; i<MAX_SIZE;i++){
-		std::cout<<a.element[i];
+	a.add(12);
+		
+		
+	for(int i=0;i<MAX_SIZE;i++){
+		std::cout<<a.element[i]<<std::endl;
 	}
-	std::cout<<std::endl;
-	
+	std::cout<<"PreorderTraversal"<<std::endl;
 	a.preorderTraversal();
+	
+	std::cout<<"InorderTraversal"<<std::endl;
+	a.inorderTraversal();
 	
     if(a.search(10)){
         std::cout<<"Found"<<std::endl;
@@ -124,8 +182,15 @@ int main(){
     else{
         std::cout<<"Not Found"<<std::endl;
     }
+    std::cout<<"Maximum element is"<<a.max()<<std::endl;
+    std::cout<<"Minimum element is"<<a.min()<<std::endl;
     
-    std::cout<<"Maximum element is"<<a.max();
-    std::cout<<"the smallest key is "<<a.min();
+    a.delete_node();
+    std:: cout<<"After delete"<<std::endl;
+    for(int i=0;i<MAX_SIZE;i++){
+		std::cout<<a.element[i]<<std::endl;
+	}
+    a.inorderTraversal();
+    
 }
 

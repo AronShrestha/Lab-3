@@ -7,11 +7,7 @@ class Node{
 			Node* right;
 		};
 
-class node{
-    public:
-        Node* info;
-        node* next;
-};
+
 
 class LinkedBST : public BinarySearchTree{
 	private:
@@ -21,30 +17,24 @@ class LinkedBST : public BinarySearchTree{
 	    LinkedBST();
 	    ~LinkedBST();
 		void preorderTraversal();
+		void preorderTraversal(Node *root);
+		void inorderTraversal();
+		void inorderTraversal(Node* root);
 		void add(int data);
 		bool search(int data);
 		bool isEmpty();
+		int min(Node *root);
+		int max(Node *root);
+		int min();
+		int max();
+		void delete_node();
+		Node* delete_node(Node *root,int key);
 		
-		Node *getRoot(){
+		Node* get_root(){
 			return root;
 		}
-	int min(Node *root);
-	int max(Node *root);
+		
 		
 };
 
-class Stack{
-    public:
-    Stack();
-    ~Stack();
-    
-    void push(Node* a);
-    Node* pop();
-    bool isEmpty();
-    bool isFull();
-    int peak();
-    
-    private:
-    node* stack;
-    node* top;
-};
+
